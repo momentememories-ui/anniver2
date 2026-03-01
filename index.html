@@ -65,7 +65,7 @@
         }
         .clock-val { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary); }
 
-        /* --- Photo Grid (Number 1 Shape - 10 Photos) --- */
+        /* --- Photo Grid --- */
         .number-one-grid { 
             display: grid; 
             grid-template-columns: repeat(3, 85px); 
@@ -74,7 +74,6 @@
         }
         .img-item { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; }
         
-        /* การจัดเรียงตำแหน่ง 10 รูปให้เป็นเลข 1 */
         .pos1 { grid-column: 2; grid-row: 1; }
         .pos2 { grid-column: 1; grid-row: 2; }
         .pos3 { grid-column: 2; grid-row: 2; }
@@ -86,13 +85,27 @@
         .pos9 { grid-column: 2; grid-row: 7; }
         .pos10 { grid-column: 3; grid-row: 7; }
 
-        /* Envelope */
-        .envelope-container { position: relative; height: 350px; display: flex; align-items: center; justify-content: center; width: 100%; }
-        .envelope { width: 220px; height: 140px; background: #ffc1cc; border-radius: 0 0 10px 10px; position: relative; cursor: pointer; z-index: 10; margin-top: 100px; }
-        .envelope::before { content: ''; position: absolute; top: -90px; left: 0; border-left: 110px solid transparent; border-right: 110px solid transparent; border-bottom: 90px solid #ff8fa3; transition: 0.5s; z-index: 12; transform-origin: bottom; }
+        /* Envelope & Paper (Adjusted Size) */
+        .envelope-container { position: relative; height: 450px; display: flex; align-items: center; justify-content: center; width: 100%; }
+        .envelope { width: 240px; height: 150px; background: #ffc1cc; border-radius: 0 0 10px 10px; position: relative; cursor: pointer; z-index: 10; margin-top: 120px; }
+        .envelope::before { content: ''; position: absolute; top: -100px; left: 0; border-left: 120px solid transparent; border-right: 120px solid transparent; border-bottom: 100px solid #ff8fa3; transition: 0.5s; z-index: 12; transform-origin: bottom; }
         .envelope.open::before { transform: rotateX(180deg); z-index: 1; }
-        .paper { position: absolute; top: 10px; left: 10px; width: 200px; height: 120px; background: white; border-radius: 5px; transition: 0.7s; z-index: 5; padding: 25px; box-sizing: border-box; overflow-y: auto; }
-        .envelope.open .paper { transform: translateY(-160px); height: 280px; width: 260px; left: -20px; z-index: 15; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        
+        .paper { 
+            position: absolute; top: 10px; left: 10px; width: 220px; height: 130px; 
+            background: white; border-radius: 5px; transition: 0.7s; z-index: 5; 
+            padding: 20px; box-sizing: border-box; overflow-y: auto; 
+        }
+        /* จดหมายที่ขยายใหญ่ขึ้น */
+        .envelope.open .paper { 
+            transform: translateY(-220px); 
+            height: 380px; /* เพิ่มความสูง */
+            width: 300px;  /* เพิ่มความกว้าง */
+            left: -30px; 
+            z-index: 15; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            padding: 30px;
+        }
 
         /* Gift Boxes */
         .boxes-grid { 
@@ -104,12 +117,6 @@
             font-size: 65px; cursor: pointer; transition: 0.3s; 
             display: inline-block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
         }
-        .gift-box:nth-child(1) { transform: rotate(-8deg) translateY(10px); }
-        .gift-box:nth-child(2) { transform: rotate(10deg) translateY(-8px); }
-        .gift-box:nth-child(3) { transform: rotate(-4deg) translateX(12px); }
-        .gift-box:nth-child(4) { transform: rotate(12deg) translateY(5px); }
-        .gift-box:nth-child(5) { transform: rotate(-10deg) translateX(-5px); }
-
         .box-shake { animation: box-shake 0.8s ease-in-out; }
         @keyframes box-shake {
             0%, 100% { transform: scale(1) rotate(0); }
@@ -119,7 +126,22 @@
             80% { transform: scale(1.1) rotate(-10deg); }
         }
 
-        /* --- TICKET DESIGN --- */
+        /* Modal */
+        .modal { 
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%; 
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; 
+        }
+        .modal.active { display: flex; animation: fadeIn 0.3s ease; }
+        .modal-content { width: 95%; text-align: center; position: relative; }
+
+        .polaroid {
+            background: white; padding: 10px 10px 45px 10px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.18); border-radius: 2px; 
+            max-width: 210px; margin: 0 auto; border: 1px solid #f2f2f2;
+        }
+        .polaroid img { width: 100%; height: auto; }
+
         .ticket {
             width: 280px; background: white; border-radius: 15px; 
             overflow: hidden; box-shadow: 0 15px 35px rgba(255, 143, 163, 0.3);
@@ -128,61 +150,12 @@
         .ticket-header { background: var(--primary); color: white; padding: 10px; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; }
         .ticket-content { padding: 30px 20px; border-bottom: 2.5px dashed var(--secondary); }
         .ticket-prize { font-size: 1.3rem; font-weight: 600; color: var(--primary); margin: 5px 0; }
-        .ticket-footer { padding: 15px; font-size: 0.6rem; color: #bbb; }
-
-        /* --- POLAROID DESIGN --- */
-        .polaroid {
-            background: white; 
-            padding: 10px 10px 45px 10px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.18);
-            border-radius: 2px; 
-            max-width: 210px;
-            margin: 0 auto;
-            transform: rotate(0deg); 
-            border: 1px solid #f2f2f2;
-            position: relative;
-            z-index: 10005;
-        }
-        .polaroid img { width: 100%; height: auto; display: block; border-radius: 1px; }
-        .polaroid-text { 
-            font-family: 'Kanit', sans-serif; font-size: 0.95rem; 
-            color: #555; margin-top: 15px; font-weight: 400;
-        }
-
-        /* Modal */
-        .modal { 
-            display: none; position: fixed; top:0; left:0; width:100%; height:100%; 
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; 
-        }
-        
-        .modal.active { display: flex; animation: fadeIn 0.3s ease; }
-        .modal.active .modal-content { animation: popIn 0.4s cubic-bezier(0.17, 0.89, 0.32, 1.49); }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes popIn { 
-            from { transform: scale(0.7); opacity: 0; } 
-            to { transform: scale(1); opacity: 1; } 
-        }
-
-        .modal-content { width: 95%; text-align: center; position: relative; }
-
-        .emoji-fly {
-            position: absolute; pointer-events: none; font-size: 30px;
-            animation: flyUp 2.4s ease-out forwards; z-index: 10001;
-        }
-        @keyframes flyUp {
-            0% { transform: translateY(80px) scale(0.5); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(-320px) scale(1.6); opacity: 0; }
-        }
 
         nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); padding: 10px 25px; border-radius: 40px; display: flex; gap: 20px; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
         nav a { text-decoration: none; font-size: 24px; }
         .btn-close { 
             background: var(--primary); color: white; border: none; padding: 10px 30px; 
             border-radius: 25px; cursor: pointer; font-family: 'Prompt', sans-serif; margin-top: 35px; 
-            box-shadow: 0 5px 15px rgba(255, 143, 163, 0.3);
             font-weight: 600;
         }
     </style>
@@ -219,7 +192,7 @@
         </section>
 
         <section id="photo-sec">
-            <h2 style="font-family: 'Caveat'; font-size: 2.2rem; color: var(--primary); margin-bottom: 15px;">Happy 1st Month Anniversary</h2>
+            <h2 style="font-family: 'Prompt'; font-size: 1.6rem; color: var(--primary); margin-bottom: 25px; text-align: center; width: 100%;">สุขสันต์วันครบรอบ 1 เดือน</h2>
             <div class="number-one-grid">
                 <img src="photo1.jpg" class="img-item pos1" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
                 <img src="photo2.jpg" class="img-item pos2" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
@@ -237,7 +210,9 @@
         <section id="letter-sec">
             <div class="envelope-container">
                 <div class="envelope" id="env" onclick="openLetter()">
-                    <div class="paper" id="paper"><div id="typewriter" style="font-size: 0.85rem; line-height: 1.8; color: #555;"></div></div>
+                    <div class="paper" id="paper">
+                        <div id="typewriter" style="font-size: 0.9rem; line-height: 1.8; color: #555; font-family: 'Prompt', sans-serif;"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -266,7 +241,7 @@
             <div id="photo-area">
                 <div class="polaroid">
                     <img id="modal-img" src="">
-                    <div id="img-caption" class="polaroid-text"></div>
+                    <div id="img-caption" class="polaroid-text" style="font-family: 'Caveat'; font-size: 1.2rem; margin-top: 15px;"></div>
                 </div>
             </div>
             
@@ -313,32 +288,54 @@
         function clearPass() { pass = ""; document.querySelectorAll('.dot').forEach(d => d.classList.remove('active')); }
 
         function startTimer() {
-            const start = new Date("2026-02-02T00:00:00");
+            // ตั้งค่าวันเริ่มต้นเป็นวันที่ 2 กุมภาพันธ์ 2026
+            const startDate = new Date("2026-02-02T00:00:00");
+            
             setInterval(() => {
                 const now = new Date();
-                const diff = now - start;
-                const dTotal = Math.floor(diff / (1000*60*60*24));
-                document.getElementById('y').innerText = Math.floor(dTotal/365);
-                document.getElementById('m').innerText = Math.floor((dTotal%365)/30);
-                document.getElementById('d').innerText = dTotal % 30;
-                document.getElementById('ch').innerText = String(Math.floor((diff/(1000*60*60))%24)).padStart(2,'0');
-                document.getElementById('cm').innerText = String(Math.floor((diff/(1000*60))%60)).padStart(2,'0');
-                document.getElementById('cs').innerText = String(Math.floor((diff/1000)%60)).padStart(2,'0');
+                
+                let years = now.getFullYear() - startDate.getFullYear();
+                let months = now.getMonth() - startDate.getMonth();
+                let days = now.getDate() - startDate.getDate();
+
+                if (days < 0) {
+                    months--;
+                    const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                    days += lastMonth.getDate();
+                }
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                document.getElementById('y').innerText = years;
+                document.getElementById('m').innerText = months;
+                document.getElementById('d').innerText = days;
+                
+                const diff = now - startDate;
+                document.getElementById('ch').innerText = String(now.getHours()).padStart(2,'0');
+                document.getElementById('cm').innerText = String(now.getMinutes()).padStart(2,'0');
+                document.getElementById('cs').innerText = String(now.getSeconds()).padStart(2,'0');
             }, 1000);
         }
 
-        function createEmojiEffect() {
-            const emojis = ['❤️', '💖', '✨', '🌸', '🥰'];
-            for(let i=0; i<10; i++) {
-                setTimeout(() => {
-                    const emoji = document.createElement('div');
-                    emoji.className = 'emoji-fly';
-                    emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-                    emoji.style.left = Math.random() * 80 + 10 + '%';
-                    emoji.style.bottom = '25%';
-                    document.getElementById('modal-box').appendChild(emoji);
-                    setTimeout(() => emoji.remove(), 2400);
-                }, i * 200);
+        function openLetter() {
+            document.getElementById('env').classList.add('open');
+            const msg ="Happy anniversary 1 month\nสุขสันต์วันครบรอบ 1 เดือนนะคะะะ\n\nถึงจะเป็นช่วงเวลาสั้นๆ\nแต่ทุกวันที่เค้ามีหมู ิิ\nมันมีความหมายที่สุดเลย\n\nขอบคุณที่อยู่ข้างๆ เค้า\nเข้าใจกัน ดูแลกัน\nและเลือกเค้าในทุกๆ วัน\n\nเค้าอยากจะขอโทษหมูที่บางครั้ง\nเค้าทำให้หมูนอย หมูน้อยใจ\nหรือทำให้แฟนเสียความรู้สึก\n\nเค้าจะปรับตัวให้ดีขึ้นมากกว่าเดิมมม\nเค้าจะดูแลหัวใจดวงน้อยๆ ของหมูให้ดีที่สุด\n\nขอให้หลังจากนี้หมูยังจับมือเค้าแบบนี้\nไม่ว่าจะเจอเรื่องดีหรือเรื่องร้าย\nเค้าก็ขอให้แฟนแฟ่นอยู่กับเค้านานๆ\nโตไปด้วยกันและมีรอยยิ้มที่น่ารักๆ\nแบบนี้ตลอดไปเลยนะคะะ 🐽🐽\n\n- เ้ารักแฟนที่สุดในจักรวาลเลย - 🤍🌻";
+            
+            let i = 0;
+            if(document.getElementById('typewriter').innerHTML === "") {
+                function type() {
+                    if (i < msg.length) {
+                        document.getElementById('typewriter').innerHTML += msg.charAt(i) === '\n' ? '<br>' : msg.charAt(i);
+                        i++; 
+                        // เลื่อน scroll ลงอัตโนมัติขณะพิมพ์
+                        const paper = document.getElementById('paper');
+                        paper.scrollTop = paper.scrollHeight;
+                        setTimeout(type, 50);
+                    }
+                }
+                setTimeout(type, 1000);
             }
         }
 
@@ -348,25 +345,9 @@
             document.getElementById('modal-img').src = el.src;
             document.getElementById('img-caption').innerText = caption;
             document.getElementById('modal').classList.add('active');
-            createEmojiEffect();
         }
 
-        function openLetter() {
-            document.getElementById('env').classList.add('open');
-            const msg ="Happy anniversary 1mont\nสุขสันต์วันครบรอบ1เดือนนะค่ะะะ \nถึงจาเป้นช่วงเวลาสั้นๆๆ \nแต่ทุกวันที่เค้ามีหมุุุ ิิ\nมันมีความหมายที่ฉุดดเยย \nขอบคุณที่อยู่ข้างๆๆเค้า \nเข้าจายกาน ดูแลกาน \nและเลือกเค้าในทุ้กๆๆวันน \nเค้าอยากจาขอโทษหมุที่บางครั้ง\nเค้าทำหั้ยหมุนอย หมุน้อยจาย \nหรือทำให้แฟนเสียความรู้สึก \nเค้าจะปรับตัวหั้ยดีขึ้นมากกว่าเดิมมม \nเค้าจาดูแลหัวใจดวงน้อยๆๆของหมุุให้ดีที่ฉุดด \nขอหั้ยหลังจากนี้หมุยังจับมือเค้าแบบเน้ \nไม่ว่าจะเจอเรื่อดีหรือเรื่องร้าย\nเค้าก้ขอให้แฟนแฟ่นอยู่กับเค้านานๆๆ \nโตปายด้วยกานนนและมีรอยยิ้มม\nที่น่ารักๆๆแบบนี้ตลอดไปเยยนะค่ะะ🐽🐽\n-เค้าร้ากแฟนที่ฉุดในจักรวาลลล🤍🌻-";
-            let i = 0;
-            if(document.getElementById('typewriter').innerHTML === "") {
-                function type() {
-                    if (i < msg.length) {
-                        document.getElementById('typewriter').innerHTML += msg.charAt(i) === '\n' ? '<br>' : msg.charAt(i);
-                        i++; setTimeout(type, 50);
-                    }
-                }
-                setTimeout(type, 1000);
-            }
-        }
-
-        const prizes = ["จ้องตากัน10วิ", "ขอของขวัญได้1อย่าง", "ลูบหัวเค้าาา", "ขอของขวัญได้1อย่าง", "เค้าจาเลี้ยงขนมแฟนกี่อย่างก้ได้้🐽"];
+        const prizes = ["จ้องตากัน 10 วิ", "ขอของขวัญได้ 1 อย่าง", "ลูบหัวเค้าาา", "กอดกันนานๆ 1 ที", "เค้าจะเลี้ยงขนมแฟนกี่อย่างก็ได้🐽"];
         function pickBox(el) {
             el.classList.add('box-shake');
             setTimeout(() => {

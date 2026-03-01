@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 1st Anniversary ♡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&family=Kanit:wght@300;400&family=Orbitron:wght@600&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff8fa3;
+            --secondary: #ffcad4;
+            --bg: #fff5f7;
+            --text: #7a5c61;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(#ffcad4 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            color: var(--text);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* --- Login Page --- */
+        #login-page {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .shake { animation: shake 0.4s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+        .pass-dots { display: flex; gap: 15px; margin-bottom: 20px; }
+        .dot { width: 15px; height: 15px; border: 2px solid var(--primary); border-radius: 50%; transition: 0.2s; }
+        .dot.active { background: var(--primary); transform: scale(1.2); box-shadow: 0 0 10px var(--primary); }
+        #error-msg { height: 20px; color: var(--primary); font-size: 0.8rem; margin-bottom: 20px; }
+        .keypad { display: grid; grid-template-columns: repeat(3, 80px); gap: 15px; }
+        .key { 
+            width: 80px; height: 80px; background: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: 0.1s; -webkit-tap-highlight-color: transparent;
+        }
+        .key:active { transform: scale(0.9); background: var(--secondary); }
+
+        /* --- Main Content --- */
+        #main-app { display: none; padding-bottom: 120px; }
+        section { min-height: 100vh; padding: 40px 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+
+        .calendar-wrap { display: flex; gap: 10px; margin-bottom: 10px; }
+        .calendar-card {
+            background: white; width: 90px; height: 110px; border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #eee;
+        }
+        .cal-top { background: var(--primary); height: 28px; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; }
+        .cal-num { font-size: 1.5rem; font-weight: 600; color: var(--text); padding-top: 15px; display: block; text-align: center; }
+        .cal-unit { font-size: 0.6rem; color: #bbb; display: block; text-align: center; }
+
+        .clock-container {
+            background: #fff; padding: 15px 25px; border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(255, 143, 163, 0.2);
+            border: 4px solid var(--secondary); display: flex; gap: 10px; align-items: center; margin: 20px 0;
+        }
+        .clock-val { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary); }
+
+        /* --- Photo Grid (Number 1 Shape - 10 Photos) --- */
+        .number-one-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 85px); 
+            grid-template-rows: repeat(7, 85px); 
+            gap: 15px; margin-top: 10px; 
+        }
+        .img-item { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; }
+        
+        /* การจัดเรียงตำแหน่ง 10 รูปให้เป็นเลข 1 */
+        .pos1 { grid-column: 2; grid-row: 1; }
+        .pos2 { grid-column: 1; grid-row: 2; }
+        .pos3 { grid-column: 2; grid-row: 2; }
+        .pos4 { grid-column: 2; grid-row: 3; }
+        .pos5 { grid-column: 2; grid-row: 4; }
+        .pos6 { grid-column: 2; grid-row: 5; }
+        .pos7 { grid-column: 2; grid-row: 6; }
+        .pos8 { grid-column: 1; grid-row: 7; }
+        .pos9 { grid-column: 2; grid-row: 7; }
+        .pos10 { grid-column: 3; grid-row: 7; }
+
+        /* Envelope */
+        .envelope-container { position: relative; height: 350px; display: flex; align-items: center; justify-content: center; width: 100%; }
+        .envelope { width: 220px; height: 140px; background: #ffc1cc; border-radius: 0 0 10px 10px; position: relative; cursor: pointer; z-index: 10; margin-top: 100px; }
+        .envelope::before { content: ''; position: absolute; top: -90px; left: 0; border-left: 110px solid transparent; border-right: 110px solid transparent; border-bottom: 90px solid #ff8fa3; transition: 0.5s; z-index: 12; transform-origin: bottom; }
+        .envelope.open::before { transform: rotateX(180deg); z-index: 1; }
+        .paper { position: absolute; top: 10px; left: 10px; width: 200px; height: 120px; background: white; border-radius: 5px; transition: 0.7s; z-index: 5; padding: 25px; box-sizing: border-box; overflow-y: auto; }
+        .envelope.open .paper { transform: translateY(-160px); height: 280px; width: 260px; left: -20px; z-index: 15; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+
+        /* Gift Boxes */
+        .boxes-grid { 
+            display: flex; flex-wrap: wrap; 
+            justify-content: center; gap: 35px; 
+            max-width: 300px; margin: 0 auto; 
+        }
+        .gift-box { 
+            font-size: 65px; cursor: pointer; transition: 0.3s; 
+            display: inline-block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+        .gift-box:nth-child(1) { transform: rotate(-8deg) translateY(10px); }
+        .gift-box:nth-child(2) { transform: rotate(10deg) translateY(-8px); }
+        .gift-box:nth-child(3) { transform: rotate(-4deg) translateX(12px); }
+        .gift-box:nth-child(4) { transform: rotate(12deg) translateY(5px); }
+        .gift-box:nth-child(5) { transform: rotate(-10deg) translateX(-5px); }
+
+        .box-shake { animation: box-shake 0.8s ease-in-out; }
+        @keyframes box-shake {
+            0%, 100% { transform: scale(1) rotate(0); }
+            20% { transform: scale(1.1) rotate(15deg); }
+            40% { transform: scale(1.1) rotate(-15deg); }
+            60% { transform: scale(1.1) rotate(10deg); }
+            80% { transform: scale(1.1) rotate(-10deg); }
+        }
+
+        /* --- TICKET DESIGN --- */
+        .ticket {
+            width: 280px; background: white; border-radius: 15px; 
+            overflow: hidden; box-shadow: 0 15px 35px rgba(255, 143, 163, 0.3);
+            margin: 0 auto; border: 2px solid var(--primary);
+        }
+        .ticket-header { background: var(--primary); color: white; padding: 10px; font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; }
+        .ticket-content { padding: 30px 20px; border-bottom: 2.5px dashed var(--secondary); }
+        .ticket-prize { font-size: 1.3rem; font-weight: 600; color: var(--primary); margin: 5px 0; }
+        .ticket-footer { padding: 15px; font-size: 0.6rem; color: #bbb; }
+
+        /* --- POLAROID DESIGN --- */
+        .polaroid {
+            background: white; 
+            padding: 10px 10px 45px 10px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+            border-radius: 2px; 
+            max-width: 210px;
+            margin: 0 auto;
+            transform: rotate(0deg); 
+            border: 1px solid #f2f2f2;
+            position: relative;
+            z-index: 10005;
+        }
+        .polaroid img { width: 100%; height: auto; display: block; border-radius: 1px; }
+        .polaroid-text { 
+            font-family: 'Kanit', sans-serif; font-size: 0.95rem; 
+            color: #555; margin-top: 15px; font-weight: 400;
+        }
+
+        /* Modal */
+        .modal { 
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%; 
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(8px); z-index: 10000; align-items: center; justify-content: center; 
+        }
+        
+        .modal.active { display: flex; animation: fadeIn 0.3s ease; }
+        .modal.active .modal-content { animation: popIn 0.4s cubic-bezier(0.17, 0.89, 0.32, 1.49); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popIn { 
+            from { transform: scale(0.7); opacity: 0; } 
+            to { transform: scale(1); opacity: 1; } 
+        }
+
+        .modal-content { width: 95%; text-align: center; position: relative; }
+
+        .emoji-fly {
+            position: absolute; pointer-events: none; font-size: 30px;
+            animation: flyUp 2.4s ease-out forwards; z-index: 10001;
+        }
+        @keyframes flyUp {
+            0% { transform: translateY(80px) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-320px) scale(1.6); opacity: 0; }
+        }
+
+        nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); padding: 10px 25px; border-radius: 40px; display: flex; gap: 20px; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        nav a { text-decoration: none; font-size: 24px; }
+        .btn-close { 
+            background: var(--primary); color: white; border: none; padding: 10px 30px; 
+            border-radius: 25px; cursor: pointer; font-family: 'Prompt', sans-serif; margin-top: 35px; 
+            box-shadow: 0 5px 15px rgba(255, 143, 163, 0.3);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-page">
+        <h3 style="font-weight: 300; color: var(--primary); margin-bottom: 10px;">Enter Password ♡</h3>
+        <div id="error-msg"></div>
+        <div class="pass-dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="keypad">
+            <div class="key" onclick="addNum('1')">1</div><div class="key" onclick="addNum('2')">2</div><div class="key" onclick="addNum('3')">3</div>
+            <div class="key" onclick="addNum('4')">4</div><div class="key" onclick="addNum('5')">5</div><div class="key" onclick="addNum('6')">6</div>
+            <div class="key" onclick="addNum('7')">7</div><div class="key" onclick="addNum('8')">8</div><div class="key" onclick="addNum('9')">9</div>
+            <div style="width:80px"></div><div class="key" onclick="addNum('0')">0</div><div class="key" onclick="clearPass()" style="font-size:14px; color:var(--primary);">ลบ</div>
+        </div>
+    </div>
+
+    <div id="main-app">
+        <section id="time-sec">
+            <div style="font-size: 1rem; color: var(--primary); margin-bottom: 20px;">เราเดินมาด้วยกันแล้ว...</div>
+            <div class="calendar-wrap">
+                <div class="calendar-card"><span class="cal-top">ปี</span><span class="cal-num" id="y">0</span><span class="cal-unit">YEARS</span></div>
+                <div class="calendar-card"><span class="cal-top">เดือน</span><span class="cal-num" id="m">0</span><span class="cal-unit">MONTHS</span></div>
+                <div class="calendar-card"><span class="cal-top">วัน</span><span class="cal-num" id="d">0</span><span class="cal-unit">DAYS</span></div>
+            </div>
+            <div class="clock-container">
+                <span class="clock-val" id="ch">00</span> : <span class="clock-val" id="cm">00</span> : <span class="clock-val" id="cs">00</span>
+            </div>
+            <p style="font-size: 0.8rem; opacity: 0.6;">ทุกวินาทีมีค่าเมื่ออยู่กับเธอ ❤️</p>
+        </section>
+
+        <section id="photo-sec">
+            <h2 style="font-family: 'Caveat'; font-size: 2.2rem; color: var(--primary); margin-bottom: 15px;">Happy 1st Month Anniversary</h2>
+            <div class="number-one-grid">
+                <img src="photo1.jpg" class="img-item pos1" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo2.jpg" class="img-item pos2" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo3.jpg" class="img-item pos3" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo4.jpg" class="img-item pos4" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo5.jpg" class="img-item pos5" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo6.jpg" class="img-item pos6" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo7.jpg" class="img-item pos7" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo8.jpg" class="img-item pos8" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo9.jpg" class="img-item pos9" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+                <img src="photo10.jpg" class="img-item pos10" onclick="zoomImg(this, 'เค้ารักแฟนแฟ่นที่สุดในโล้้กก🐽')">
+            </div>
+        </section>
+
+        <section id="letter-sec">
+            <div class="envelope-container">
+                <div class="envelope" id="env" onclick="openLetter()">
+                    <div class="paper" id="paper"><div id="typewriter" style="font-size: 0.85rem; line-height: 1.8; color: #555;"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="fun-sec">
+            <h3 style="color: var(--primary); margin-bottom: 40px;">เลือกของขวัญของคุณ! 🎁</h3>
+            <div class="boxes-grid">
+                <div class="gift-box" onclick="pickBox(this)">🎁</div>
+                <div class="gift-box" onclick="pickBox(this)">🎁</div>
+                <div class="gift-box" onclick="pickBox(this)">🎁</div>
+                <div class="gift-box" onclick="pickBox(this)">🎁</div>
+                <div class="gift-box" onclick="pickBox(this)">🎁</div>
+            </div>
+        </section>
+
+        <nav>
+            <a href="#time-sec">⏰</a>
+            <a href="#photo-sec">🖼️</a>
+            <a href="#letter-sec">✉️</a>
+            <a href="#fun-sec">🎁</a>
+        </nav>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content" id="modal-box">
+            <div id="photo-area">
+                <div class="polaroid">
+                    <img id="modal-img" src="">
+                    <div id="img-caption" class="polaroid-text"></div>
+                </div>
+            </div>
+            
+            <div id="coupon-area" style="display: none;">
+                <div class="ticket">
+                    <div class="ticket-header">LOVE COUPON</div>
+                    <div class="ticket-content">
+                        <div style="font-size: 0.7rem; color: #999;">คูปองนี้มอบให้...</div>
+                        <div id="coupon-text" class="ticket-prize"></div>
+                        <div style="font-size: 0.7rem; color: #999; margin-top: 5px;">แด่คนสำคัญของหัวใจ</div>
+                    </div>
+                    <div class="ticket-footer">* แคปหน้าจอเพื่อใช้สิทธิ์ได้ตลอดเวลา *</div>
+                </div>
+            </div>
+            <button class="btn-close" onclick="closeModal()">ปิดหน้าต่าง ♡</button>
+        </div>
+    </div>
+
+    <audio id="bgm" loop><source src="song.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        let pass = "";
+        const target = "031255";
+        const errorMsgs = ["รหัสผิดนะเจ้าคนดี 🥺", "จำไม่ได้หรอเนี่ย งอนละนะ! 😤", "เกือบถูกแล้ว ลองอีกนิดดด", "อ๊ะ! ผิดแล้วตัวแสบ 😜", "ลองใหม่นะจ๊ะ"];
+
+        function addNum(n) {
+            if(pass.length < 6) {
+                pass += n;
+                document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i < pass.length));
+                if(pass.length === 6) {
+                    if(pass === target) {
+                        document.getElementById('login-page').style.display = 'none';
+                        document.getElementById('main-app').style.display = 'block';
+                        document.getElementById('bgm').play().catch(() => {});
+                        startTimer();
+                    } else {
+                        document.getElementById('error-msg').innerText = errorMsgs[Math.floor(Math.random()*errorMsgs.length)];
+                        document.getElementById('login-page').classList.add('shake');
+                        setTimeout(() => { document.getElementById('login-page').classList.remove('shake'); clearPass(); }, 400);
+                    }
+                }
+            }
+        }
+        function clearPass() { pass = ""; document.querySelectorAll('.dot').forEach(d => d.classList.remove('active')); }
+
+        function startTimer() {
+            const start = new Date("2026-02-02T00:00:00");
+            setInterval(() => {
+                const now = new Date();
+                const diff = now - start;
+                const dTotal = Math.floor(diff / (1000*60*60*24));
+                document.getElementById('y').innerText = Math.floor(dTotal/365);
+                document.getElementById('m').innerText = Math.floor((dTotal%365)/30);
+                document.getElementById('d').innerText = dTotal % 30;
+                document.getElementById('ch').innerText = String(Math.floor((diff/(1000*60*60))%24)).padStart(2,'0');
+                document.getElementById('cm').innerText = String(Math.floor((diff/(1000*60))%60)).padStart(2,'0');
+                document.getElementById('cs').innerText = String(Math.floor((diff/1000)%60)).padStart(2,'0');
+            }, 1000);
+        }
+
+        function createEmojiEffect() {
+            const emojis = ['❤️', '💖', '✨', '🌸', '🥰'];
+            for(let i=0; i<10; i++) {
+                setTimeout(() => {
+                    const emoji = document.createElement('div');
+                    emoji.className = 'emoji-fly';
+                    emoji.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+                    emoji.style.left = Math.random() * 80 + 10 + '%';
+                    emoji.style.bottom = '25%';
+                    document.getElementById('modal-box').appendChild(emoji);
+                    setTimeout(() => emoji.remove(), 2400);
+                }, i * 200);
+            }
+        }
+
+        function zoomImg(el, caption) {
+            document.getElementById('photo-area').style.display = 'block';
+            document.getElementById('coupon-area').style.display = 'none';
+            document.getElementById('modal-img').src = el.src;
+            document.getElementById('img-caption').innerText = caption;
+            document.getElementById('modal').classList.add('active');
+            createEmojiEffect();
+        }
+
+        function openLetter() {
+            document.getElementById('env').classList.add('open');
+            const msg = "Happy anniversary 1mont\nสุขสันต์วันครบรอบ1เดือนนะค่ะะะ \nถึงจาเป้นช่วงเวลาสั้นๆๆ \nแต่ทุกวันที่เค้ามีหมุุุ ิิ\nมันมีความหมายที่ฉุดดเยย \nขอบคุณที่อยู่ข้างๆๆเค้า \nเข้าจายกาน ดูแลกาน \nและเลือกเค้าในทุ้กๆๆวันน \nเค้าอยากจาขอโทษหมุที่บางครั้ง\nเค้าทำหั้ยหมุนอย หมุน้อยจาย \nหรือทำให้แฟนเสียความรู้สึก \nเค้าจะปรับตัวหั้ยดีขึ้นมากกว่าเดิมมม \nเค้าจาดูแลหัวใจดวงน้อยๆๆของหมุุให้ดีที่ฉุดด \nขอหั้ยหลังจากนี้หมุยังจับมือเค้าแบบ

@@ -111,6 +111,15 @@
             backdrop-filter: blur(10px); z-index: 10000; align-items: center; justify-content: center; 
         }
         .modal.active { display: flex; animation: fadeIn 0.3s ease; }
+        
+        /* เพิ่ม Container ให้ปุ่มอยู่ตรงกลาง */
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         .polaroid {
             background: white; padding: 12px 12px 50px 12px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.15); border-radius: 2px; 
@@ -154,9 +163,20 @@
         .ticket-content { padding: 30px 20px; border-bottom: 2.5px dashed var(--secondary); text-align: center; }
         .ticket-prize { font-size: 1.3rem; font-weight: 600; color: var(--primary); margin: 5px 0; }
         
+        /* แก้ไขขนาดตัวอักษรส่วนท้ายคูปอง */
+        .ticket-footer { font-size: 0.55rem; color: #bbb; padding: 8px; text-align: center; }
+        
         nav { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.95); padding: 10px 25px; border-radius: 40px; display: flex; gap: 20px; z-index: 1000; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
         nav a { text-decoration: none; font-size: 24px; }
-        .btn-close { background: var(--primary); color: white; border: none; padding: 10px 30px; border-radius: 25px; cursor: pointer; font-family: 'Prompt', sans-serif; margin-top: 35px; font-weight: 600; box-shadow: 0 5px 15px rgba(255, 143, 163, 0.3); }
+        
+        /* ปุ่มปิดอยู่ตรงกลาง */
+        .btn-close { 
+            background: var(--primary); color: white; border: none; 
+            padding: 10px 30px; border-radius: 25px; cursor: pointer; 
+            font-family: 'Prompt', sans-serif; margin-top: 35px; 
+            font-weight: 600; box-shadow: 0 5px 15px rgba(255, 143, 163, 0.3);
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -344,7 +364,7 @@
             }
         }
 
-        const prizes = ["จ้องตากัน 10 วิ", "ขอของขวัญได้ 1 อย่าง", "ลูบหัวเค้าาา", "ขอของขวัญได้ 1 อย่าง", "เค้าจะเลี้ยงขนมแฟนกี่อย่างก็ได้🐽"];
+        const prizes = ["จ้องตากัน 10 วิ", "ขอของขวัญได้ 1 อย่าง", "ลูบหัวเค้าาา", "กอดกันนานๆ 1 ที", "เค้าจะเลี้ยงขนมแฟนกี่อย่างก็ได้🐽"];
         function pickBox(el) {
             el.classList.add('box-shake');
             setTimeout(() => {

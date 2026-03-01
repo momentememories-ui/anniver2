@@ -353,4 +353,34 @@
 
         function openLetter() {
             document.getElementById('env').classList.add('open');
-            const msg = "Happy anniversary 1mont\nสุขสันต์วันครบรอบ1เดือนนะค่ะะะ \nถึงจาเป้นช่วงเวลาสั้นๆๆ \nแต่ทุกวันที่เค้ามีหมุุุ ิิ\nมันมีความหมายที่ฉุดดเยย \nขอบคุณที่อยู่ข้างๆๆเค้า \nเข้าจายกาน ดูแลกาน \nและเลือกเค้าในทุ้กๆๆวันน \nเค้าอยากจาขอโทษหมุที่บางครั้ง\nเค้าทำหั้ยหมุนอย หมุน้อยจาย \nหรือทำให้แฟนเสียความรู้สึก \nเค้าจะปรับตัวหั้ยดีขึ้นมากกว่าเดิมมม \nเค้าจาดูแลหัวใจดวงน้อยๆๆของหมุุให้ดีที่ฉุดด \nขอหั้ยหลังจากนี้หมุยังจับมือเค้าแบบ
+            const msg ="Happy anniversary 1mont\nสุขสันต์วันครบรอบ1เดือนนะค่ะะะ \nถึงจาเป้นช่วงเวลาสั้นๆๆ \nแต่ทุกวันที่เค้ามีหมุุุ ิิ\nมันมีความหมายที่ฉุดดเยย \nขอบคุณที่อยู่ข้างๆๆเค้า \nเข้าจายกาน ดูแลกาน \nและเลือกเค้าในทุ้กๆๆวันน \nเค้าอยากจาขอโทษหมุที่บางครั้ง\nเค้าทำหั้ยหมุนอย หมุน้อยจาย \nหรือทำให้แฟนเสียความรู้สึก \nเค้าจะปรับตัวหั้ยดีขึ้นมากกว่าเดิมมม \nเค้าจาดูแลหัวใจดวงน้อยๆๆของหมุุให้ดีที่ฉุดด \nขอหั้ยหลังจากนี้หมุยังจับมือเค้าแบบเน้ \nไม่ว่าจะเจอเรื่อดีหรือเรื่องร้าย\nเค้าก้ขอให้แฟนแฟ่นอยู่กับเค้านานๆๆ \nโตปายด้วยกานนนและมีรอยยิ้มม\nที่น่ารักๆๆแบบนี้ตลอดไปเยยนะค่ะะ🐽🐽\n-เค้าร้ากแฟนที่ฉุดในจักรวาลลล🤍🌻-";
+            let i = 0;
+            if(document.getElementById('typewriter').innerHTML === "") {
+                function type() {
+                    if (i < msg.length) {
+                        document.getElementById('typewriter').innerHTML += msg.charAt(i) === '\n' ? '<br>' : msg.charAt(i);
+                        i++; setTimeout(type, 50);
+                    }
+                }
+                setTimeout(type, 1000);
+            }
+        }
+
+        const prizes = ["จ้องตากัน10วิ", "ขอของขวัญได้1อย่าง", "ลูบหัวเค้าาา", "ขอของขวัญได้1อย่าง", "เค้าจาเลี้ยงขนมแฟนกี่อย่างก้ได้้🐽"];
+        function pickBox(el) {
+            el.classList.add('box-shake');
+            setTimeout(() => {
+                const prize = prizes[Math.floor(Math.random()*prizes.length)];
+                document.getElementById('photo-area').style.display = 'none';
+                document.getElementById('coupon-area').style.display = 'block';
+                document.getElementById('coupon-text').innerText = prize;
+                document.getElementById('modal').classList.add('active');
+                el.classList.remove('box-shake');
+                el.innerText = "✨";
+            }, 800);
+        }
+
+        function closeModal() { document.getElementById('modal').classList.remove('active'); }
+    </script>
+</body>
+</html>
